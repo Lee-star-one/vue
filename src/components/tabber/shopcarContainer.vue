@@ -1,13 +1,8 @@
 <template>
-    <div>
-        shopcar
-    </div>
+  <div>shopcar</div>
 </template>
 <script>
-export default {
-    
-}
+export default {};
 </script>
 <style lang="">
-    
 </style>
