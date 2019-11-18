@@ -1,10 +1,9 @@
 <template>
   <div>
-    <mt-swipe :auto="4000">
-      <mt-swipe-item>1</mt-swipe-item>
-      <mt-swipe-item>2</mt-swipe-item>
-      <mt-swipe-item>3</mt-swipe-item>
-    </mt-swipe>
+     <!-- 轮播图区域 -->
+    
+    <swiper :infoId="lunbotuList" :isfull='true'></swiper>
+    <!-- 九宫格 到 6宫格 的改造工程 -->
     <ul class="mui-table-view mui-grid-view mui-grid-9">
       <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
         <router-link to="/home/news">
@@ -46,55 +45,45 @@
   </div>
 </template>
 <script>
+import swiper from '../homes/subcomponent/swiper.vue'
 import { Toast } from "mint-ui";
 export default {
   data() {
     return {
-      lunbotuList: [] //保存轮播图数据
+      lunbotuList:[]
     };
   },
   created() {
-    this.getLunbotu();
+   this.getLunbotu();
   },
   methods: {
     getLunbotu() {
-      // 获取轮播图数据的方法
-      this.$http
-        .get("")
-        .then(result => {
-          // console.log(result.body);
-          if (result.body.status === 0) {
-            // 成功
-            this.lunbotuList = result.message;
-          } else {
-            //    失败
-            Toast("Upload Complete");
+// axios请求
+      this.$axios.get('http://www.liulongbin.top:3005/api/getlunbo',{
+        params:{}
+      }).then(response=>{
+          console.log(response.data.message)
+          if(response.status ===200){
+            this.lunbotuList = response.data.message;
           }
-        });
+      }).then(function(err){
+        console.log(err)
+      })
     }
+  },
+  components:{
+    swiper
   }
 };
 </script>
 <style lang="scss">
 .mui-grid-view.mui-grid-9 {
   background: white;
+ 
   img {
     width: 60px;
     height: 60px;
   }
 }
-.mint-swipe {
-  height: 200px;
-  .mint-swipe-item {
-    &:nth-child(1) {
-      background: darkkhaki;
-    }
-    &:nth-child(2) {
-      background: darkcyan;
-    }
-    &:nth-child(3) {
-      background: darkgoldenrod;
-    }
-  }
-}
+
 </style>

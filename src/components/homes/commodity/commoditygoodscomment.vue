@@ -1,6 +1,6 @@
 <template lang="">
     <div>
-        图片业
+       commoditygoodscomment
     </div>
 </template>
 <script>

@@ -1,16 +1,14 @@
 <template>
     <div class="info-container">
         <div class="info-title">
-            <h1>一季度多家房企利润跌幅超50%去库存促销打响</h1>
-            <p><span>发表时间：2015-04-16 11:50:20</span><span>点击一次</span></p>
+            <h1>{{newsinfo.title}}</h1>
+            <p><span>发表时间：{{newsinfo.add_time|dateFormat}}</span><span>点击{{newsinfo.click}}次</span></p>
         </div>
         <hr>
-        <div class="content">
-            好好
+        <div class="content" v-html="newsinfo.content">
+           
         </div>
-        <div class="info-list">
-
-        </div>
+       
         <comment-box>
 
         </comment-box>
@@ -21,7 +19,23 @@ import comment  from '../subcomponent/comment.vue'
 export default {
     data() {
         return {
-            id:this.$route.params.id
+            id:this.$route.params.id, // 将 URL 地址中传递过来的 Id值，挂载到 data上，方便以后调用
+            newsinfo:[]
+        }
+    },
+    created() {
+        this.getNewsInfo();
+    },
+    methods: {
+        getNewsInfo(){
+            this.$http.get('api/getnew/'+this.id).then(response=>{
+                 console.log(response)
+               if (response.body.status === 0) {
+                this.newsinfo = response.body.message[0];
+                } else {
+                
+                }
+            })
         }
     },
     components:{

@@ -1,6 +1,6 @@
 <template lang="">
     <div>
-        商品业
+       commoditygoodsdesc
     </div>
 </template>
 <script>
