@@ -1,7 +1,11 @@
 <template>
   <div>
     <!-- header -->
-    <mt-header fixed title="固定在顶部"></mt-header>
+    <mt-header fixed title="Vue商城">
+      <span slot="left" @click="goback" v-show="flag">
+        <mt-button icon="back">返回</mt-button>
+      </span>
+    </mt-header>
     <!-- main  router-view 区域-->
     <div class="main_box">
       <transition>
@@ -33,6 +37,31 @@
 </template>
 
 <script>
+export default{
+ data() {
+   return {
+     flag:true
+   }
+ },
+ created() {
+   this.flag=this.$route.path==='/home'?false:true
+ },
+ methods: {
+   goback(){
+     this.$router.go(-1)
+   }
+ },
+ watch: {
+   "$route.path":function(newVal){
+     if(newVal ==='/home'){
+       this.flag=false
+     }else{
+       this.flag=true
+     }
+   }
+ },
+
+}
 </script>
 
 

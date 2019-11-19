@@ -46,6 +46,40 @@ var store =new Vuex.Store({
 
         // 当更新 car 之后 把car 数组 ，存储到本地localStorage中
         localStorage.setItem('car',JSON.stringify(state.car))
+        },
+
+        updatagoods(state,updatainfo){
+            // 修改购物车中商品的数量值
+            // 分析：
+            state.car.some(item=>{
+                if(item.id == updatainfo.id){
+                    item.count= parseInt(updatainfo.num)
+                    return true
+                }
+            })
+            localStorage.setItem('car',JSON.stringify(state.car))
+        },
+        removeForCar(state,id){
+            //根据Id，从store中的购物车中删除对应的那条商品数据
+            state.car.some((item,i)=>{
+                if(item.id == id){
+                    state.car.splice(i,1)
+                    return true;
+                }
+            })
+            //将删除完毕后的，最新的购物车数据，同步到 本地存储
+            localStorage.setItem('car',JSON.stringify(state.car))
+        },
+        // 同步改变store里的select的状态 和 本地的状态
+        selectedChange(state,info){
+            state.car.some(item=>{
+                if(item.id==info.id){
+                    item.selected=info.selected
+                    return true
+                }
+                
+            })
+            localStorage.setItem('car',JSON.stringify(state.car))
         }
        
         
@@ -58,8 +92,41 @@ var store =new Vuex.Store({
                 c+=item.count
             })
             return c
+        },
+        // 获取所有商品对应的数量
+        getgoodsCount(state){
+            var o={}
+            state.car.forEach(item=>{
+                o[item.id]=item.count
+            })
+            return o
+        },
+        // 获取所有商品对应的状态
+        getgoodselect(state){
+            var o={}
+            state.car.forEach(item=>{
+                o[item.id]=item.selected
+                
+            })
+            console.log(o)
+            return o
+        },
+        // 获取所有勾选的数量和总计
+        getgoodsamountandtotle(state){
+            var o={
+                amount:0,
+                totle:0
+            }
+            state.car.forEach(item=>{
+                if(item.selected==true){
+                    o.amount+=item.count
+                    o.totle+=item.count*item.price
+                }
+            })
+            return o
         }
-    }
+    },
+
 })
 
 // 导入时间的插件
